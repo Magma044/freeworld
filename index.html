@@ -1,58 +1,8 @@
-<html>
+<html lang="it">
   <head>
-    <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=home" />    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-
-      const nomi = {
-        "Germany":"Germania",
-        "United States":"Stati Uniti d'America",
-        "Brazil":"Brasile",
-        "Canada":"Canada",
-        "France":"Francia",
-        "Russia":"Russia",
-        "Italy":"Italia"
-      }
-
-      google.charts.load('current', {
-        'packages':['geochart'],
-      });
-      google.charts.setOnLoadCallback(drawRegionsMap);
-
-      function drawRegionsMap() {
-        var data = google.visualization.arrayToDataTable([
-          ['Country', 'val1', "val2"],
-          ['Germany', 100, 10],
-          ['United States', 80, 10],
-          ['Brazil', 95, 10],
-          ['Canada', 50, 10],
-          ['France', 30, 10],
-          ['Russia', 0, 10],
-          ['Italy', 100, 10]
-        ]);
-
-        var options = {
-            colorAxis: {colors: ["red","darkorange","green"]},
-            datalessRegionColor: '#d3d3d3',
-            defaultColor: '#f5f5f5',
-            backgroundColor: 'none',
-            enableRegionInteractivity: true,
-            region: 'world',
-        };
-
-        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-
-        chart.draw(data, options);
-
-        google.visualization.events.addListener(chart, 'select', function() {
-          var selection = chart.getSelection();
-          if (selection.length) {
-            var countryName = nomi[data.getValue(selection[0].row, 0)];
-            alert(countryName);
-          }
-        });
-      }
-    </script>
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=home" />    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <title>Home</title>
   </head>
   <body>
     <div id="navbar">
@@ -62,7 +12,11 @@
     <div id="map_container">
       <div id="regions_div"></div>
     </div>
-    <h1>Lorem Ipsum</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente obcaecati sunt unde corporis nulla voluptas fugit tenetur, omnis deserunt aut expedita non dignissimos error facilis voluptatum necessitatibus? A, vero natus? Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum iste similique nam ab omnis tempore libero cum quidem dolores distinctio! Esse ad quos blanditiis dolorum. Officia quasi minima voluptatum facere. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus enim voluptas ea excepturi ipsum tempore corrupti recusandae quos tempora fuga. Voluptatibus temporibus ab eos exercitationem numquam officiis sed unde omnis! Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, placeat vitae. Qui non itaque magnam inventore quisquam. Quam quia iure at! Quaerat laudantium ratione sapiente rem impedit dignissimos dicta veritatis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam et, fugiat illo dolore velit labore. Quidem dicta consequuntur illum, ab molestias dolor quis velit ducimus eum, nisi cumque vero autem? Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, distinctio repudiandae accusamus consequuntur soluta excepturi modi perspiciatis, ut vero incidunt in harum sit, et illum dolorem tempore eos sed. Numquam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus similique asperiores nobis sed magni. Laborum soluta eveniet sequi! Voluptatibus fugiat cum animi beatae exercitationem vitae sapiente eum necessitatibus voluptas commodi. Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, natus. Repellendus quo exercitationem mollitia blanditiis autem minus incidunt distinctio possimus! Asperiores error deserunt voluptates et. Labore voluptatem ex ab esse! Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus perspiciatis ratione repellat aliquam deserunt eligendi aut atque, molestiae dolorum recusandae consequuntur assumenda maxime quis illo nemo magni vitae. Dolorem, beatae?</p>
+    <h1>Informazioni sui dati</h1>
+    <p>I dati provengono dal dataset aggiornato ad inizio 2025 di <a href="https://freedomhouse.org/">Freedom House</a>.<br>Per gli stati in grigio non sono disponibili dati.<br>I territori non autonomi non sono considerati.</p>
   </body>
+  <script src="assets/countryData.js"></script>
+  <script src="javascript/codiciStati.js"></script>
+  <script src="javascript/nomiStati.js"></script>
+  <script src="javascript/home.js"></script>
 </html>

@@ -1,0 +1,105 @@
+html{
+    font-family: Arial;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    margin: 0;
+}
+
+#navbar{
+    width: 100%;
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+    background-color: black;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#navbar h1{
+    color: white;
+    padding: 5px;
+    margin: 0;
+}
+
+#navbar button{
+    background: none;
+    color: white;
+    border: none;
+    height: 100%;
+    width: 50px;
+    margin: 0;
+}
+
+#navbar button:hover{
+    transition: 200ms;
+    color: black;
+    background-color: white;
+}
+
+#container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: grey;
+    margin-bottom: 20px;
+}
+
+#container h1{
+    padding: 10px;
+    margin: 0;
+}
+
+#map_container{
+    margin: auto;
+    background-color: #81d4fa;
+    border-radius: 10px;
+    padding: 20px;
+    width: 900px;
+    height: 500px;
+}
+
+#regions_div{
+    width: 100%;
+    height: 100%;
+}
+
+#freedom{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#colore{
+    width: 50%;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+#container_dati{
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #d3d3d3;
+    border-radius: 10px;
+    margin: auto;
+}
+
+#iconaLiberta{
+    font-size: 40px;
+}
+
+#freedom{
+    margin-left: 10px;
+}
