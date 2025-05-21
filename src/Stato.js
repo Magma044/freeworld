@@ -3,7 +3,6 @@ class Stato {
     this.codiceISO = codiceISO;
     this.nome = nome;
     this.indiceLiberta = indiceLiberta;
-    this.indiceDemocrazia = indiceDemocrazia;
   }
 
   toHTML() {
