@@ -1,4 +1,4 @@
-const countryCodes = {
+const codice = {
   "Afghanistan": "AF",
   "Albania": "AL",
   "Algeria": "DZ",

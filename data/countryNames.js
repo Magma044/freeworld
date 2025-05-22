@@ -1,4 +1,4 @@
-const countryItalianNames = {
+const nome = {
     "Afghanistan": "Afghanistan",
     "Albania": "Albania",
     "Algeria": "Algeria",
