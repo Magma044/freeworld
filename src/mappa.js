@@ -1,4 +1,5 @@
-const mappaStati = Object.fromEntries(stati.map(s => [s.codiceISO, s]));
+const stati = loadAndProcessData();
+const mappaStati = Object.fromEntries(stati.map(s => [s.sigla, s]));
 
 google.charts.load('current', {
   packages: ['geochart']
@@ -9,7 +10,7 @@ google.charts.setOnLoadCallback(drawRegionsMap);
 function drawRegionsMap() {
   const data = google.visualization.arrayToDataTable([
     ['Country', 'Libertà'],
-    ...stati.map(s => [s.nome, s.indiceLiberta])
+    ...stati.map(s => [s.nomeIT, s.indiceLiberta])
   ]);
 
   const options = {
