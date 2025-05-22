@@ -21,7 +21,7 @@ async function loadAndProcessData() {
     };
 
     // Carica il file Excel (percorso relativo dal browser)
-    const url = "src/scraping/countryData.xlsx";
+    const url = "assets/countryData.xlsx";
     
     try {
         const response = await fetch(url);
