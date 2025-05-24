@@ -40,6 +40,8 @@ Questo progetto consiste in una web app che visualizza una mappa interattiva del
 ## Autore
 
 Pietro – Studente di informatica presso ITIS, appassionato di tecnologia e sicurezza informatica.
+Tommaso - Studente di informatica presso ITIS
+Roberto - Studente di informatica presso ITIS
 
 ---
 
