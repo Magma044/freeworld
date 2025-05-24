@@ -33,14 +33,10 @@ Questo progetto consiste in una web app che visualizza una mappa interattiva del
 2. Apri `index.html` in un browser moderno.
 3. Clicca su un qualsiasi paese nella mappa per visualizzare i dettagli.
 
-## Screenshot
-
-*(Puoi inserire qui un'immagine della mappa o della pagina di dettaglio)*
-
 ## Autore
 
-Pietro – Studente di informatica presso ITIS, appassionato di tecnologia e sicurezza informatica.
-Tommaso - Studente di informatica presso ITIS.
+Pietro – Studente di informatica presso ITIS, appassionato di tecnologia e sicurezza informatica.  
+Tommaso - Studente di informatica presso ITIS.  
 Roberto - Studente di informatica presso ITIS.
 
 ---
