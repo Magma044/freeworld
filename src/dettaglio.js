@@ -1,11 +1,17 @@
+// Classe principale per gestire i dettagli di un paese
 class CountryDetailManager {
     constructor() {
+        // Estrae i parametri dall'URL della pagina corrente
         this.urlParams = new URLSearchParams(window.location.search);
+        // Inizializza i dati del paese a null
         this.countryData = null;
+        // Inizializza il grafico a null
         this.chart = null;
+        // Avvia l'inizializzazione della classe
         this.init();
     }
 
+    // Metodo di inizializzazione principale
     init() {
         this.extractUrlParameters();
         this.setupEventListeners();
@@ -14,17 +20,20 @@ class CountryDetailManager {
         this.loadGoogleCharts();
     }
 
+    // Estrae e memorizza i parametri dall'URL
     extractUrlParameters() {
         this.countryCode = this.urlParams.get('country_code');
         this.countryName = this.urlParams.get('country_name');
         this.countryIndex = parseInt(this.urlParams.get('country_index'));
         this.countryNameEnglish = this.urlParams.get('country_name_inglese');
 
+        // Se i parametri non sono validi, reindirizza alla home
         if (!this.isValidParameters()) {
             this.redirectToHome();
         }
     }
 
+    // Verifica che tutti i parametri necessari siano presenti e validi
     isValidParameters() {
         return this.countryCode && 
                this.countryName && 
@@ -32,36 +41,45 @@ class CountryDetailManager {
                this.countryNameEnglish;
     }
 
+    // Reindirizza l'utente alla pagina principale
     redirectToHome() {
         window.location.href = 'index.html';
     }
 
+    // Configura i listener per gli eventi
     setupEventListeners() {
+        // Listener per il pulsante "Indietro"
         document.getElementById('backBtn').addEventListener('click', () => {
             window.location.href = 'index.html';
         });
 
+        // Listener per il pulsante "Indietro" del browser
         window.addEventListener('popstate', () => {
             window.location.href = 'index.html';
         });
     }
 
+    // Carica i dati del paese dall'array globale datiNazioni
     loadCountryData() {
+        // Verifica che i dati globali siano disponibili
         if (!datiNazioni || !Array.isArray(datiNazioni)) {
             console.error('Dati delle nazioni non disponibili');
             return;
         }
 
+        // Cerca il paese nell'array basandosi sul nome inglese
         this.countryData = datiNazioni.find(country => 
             country.Country === this.countryNameEnglish
         );
 
+        // Se i dati non sono trovati, mostra un errore
         if (!this.countryData) {
             console.error('Dati del paese non trovati:', this.countryNameEnglish);
             this.showDataError();
         }
     }
 
+    // Aggiorna tutti gli elementi della pagina con i dati del paese
     updatePageElements() {
         this.updateBasicInfo();
         this.updateStatusBadge();
@@ -69,17 +87,23 @@ class CountryDetailManager {
         this.renderMetricsCards();
     }
 
+    // Aggiorna le informazioni di base (nome, bandiera, icona)
     updateBasicInfo() {
+        // Imposta l'icona della bandiera nel favicon
         document.getElementById('icona').href = 
             `https://flagsapi.com/${this.countryCode}/flat/16.png`;
+        // Imposta il titolo della pagina
         document.getElementById('titolo').textContent = this.countryName;
         
+        // Imposta il nome del paese nell'interfaccia
         document.getElementById('nome').textContent = this.countryName;
+        // Imposta l'immagine della bandiera
         document.getElementById('bandiera').src = 
             `https://flagsapi.com/${this.countryCode}/flat/64.png`;
         document.getElementById('bandiera').alt = `Bandiera di ${this.countryName}`;
     }
 
+    // Aggiorna il badge dello status di libertà
     updateStatusBadge() {
         const statusBadge = document.getElementById('statusBadge');
         const status = this.getCountryStatus();
@@ -88,9 +112,11 @@ class CountryDetailManager {
         statusBadge.className = `status-badge ${status.class}`;
     }
 
+    // Determina lo status del paese basandosi sui dati
     getCountryStatus() {
         if (!this.countryData) return { text: 'DATI NON DISPONIBILI', class: 'bg-secondary' };
 
+        // Mappa degli status con i relativi testi e classi CSS
         const statusMap = {
             'NF': { text: 'NON LIBERO', class: 'bg-danger' },
             'PF': { text: 'PARZIALMENTE LIBERO', class: 'bg-warning' },
@@ -101,34 +127,41 @@ class CountryDetailManager {
                { text: 'STATUS SCONOSCIUTO', class: 'bg-secondary' };
     }
 
+    // Aggiorna i punteggi principali (totale, diritti politici, libertà civili)
     updateScores() {
         if (!this.countryData) return;
 
+        // Aggiorna i valori numerici dei punteggi
         document.getElementById('totalScore').textContent = this.countryData.Total || '--';
         document.getElementById('politicalRights').textContent = this.countryData.PR || '--';
         document.getElementById('civilLiberties').textContent = this.countryData.CL || '--';
 
+        // Aggiorna la barra di progresso
         const progressBar = document.getElementById('totalProgressBar');
         const percentage = (this.countryData.Total / 100) * 100;
         progressBar.style.width = `${percentage}%`;
         progressBar.className = `progress-bar ${this.getProgressBarClass(this.countryData.Total)}`;
     }
 
+    // Determina la classe CSS per la barra di progresso basandosi sul punteggio
     getProgressBarClass(score) {
         if (score >= 70) return 'bg-success';
         if (score >= 40) return 'bg-warning';
         return 'bg-danger';
     }
 
+    // Renderizza le card delle metriche dettagliate
     renderMetricsCards() {
         const container = document.getElementById('metricsContainer');
         const metrics = this.getMetricsData();
 
+        // Genera l'HTML per tutte le card delle metriche
         container.innerHTML = metrics.map(metric => 
             this.createMetricCard(metric)
         ).join('');
     }
 
+    // Restituisce i dati delle metriche strutturati per la visualizzazione
     getMetricsData() {
         if (!this.countryData) return [];
 
@@ -178,6 +211,7 @@ class CountryDetailManager {
         ];
     }
 
+    // Crea l'HTML per una singola card metrica
     createMetricCard(metric) {
         const scoreColor = this.getScoreColor(metric.score);
         return `
@@ -202,6 +236,7 @@ class CountryDetailManager {
         `;
     }
 
+    // Determina il colore basandosi sul punteggio (scala 0-16)
     getScoreColor(score) {
         // Soglie adattate per scala 0-16
         if (score >= 11) return '#28a745';    // ~70% di 16
@@ -209,15 +244,18 @@ class CountryDetailManager {
         return '#dc3545';
     }
 
+    // Carica la libreria Google Charts e inizializza la mappa
     loadGoogleCharts() {
         google.charts.load('current', { packages: ['geochart'] });
         google.charts.setOnLoadCallback(() => this.drawCountryMap());
     }
 
+    // Disegna la mappa geografica del paese con Google Charts
     drawCountryMap() {
         if (!this.countryData) return;
 
         try {
+            // Prepara i dati per la visualizzazione della mappa
             const data = google.visualization.arrayToDataTable([
                 ['Country', 'Indice di libertà'],
                 ['', 0],
@@ -225,6 +263,7 @@ class CountryDetailManager {
                 [this.countryNameEnglish, this.countryData.Total]
             ]);
 
+            // Configurazione delle opzioni per la mappa
             const options = {
                 colorAxis: { 
                     colors: ['#dc3545', '#fd7e14', '#28a745', '#155724'],
@@ -242,6 +281,7 @@ class CountryDetailManager {
                 }
             };
 
+            // Crea e disegna la mappa
             this.chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
             this.chart.draw(data, options);
         } catch (error) {
@@ -250,6 +290,7 @@ class CountryDetailManager {
         }
     }
 
+    // Mostra un messaggio di errore quando la mappa non può essere caricata
     showMapError() {
         const mapDiv = document.getElementById('regions_div');
         mapDiv.innerHTML = `
@@ -261,6 +302,7 @@ class CountryDetailManager {
         `;
     }
 
+    // Mostra un messaggio di errore quando i dati del paese non sono disponibili
     showDataError() {
         const container = document.querySelector('.container');
         const errorAlert = `
@@ -274,15 +316,19 @@ class CountryDetailManager {
     }
 }
 
+// Classe per la validazione dei dati
 class DataValidator {
+    // Verifica se un punteggio è valido (tra 0 e 16)
     static isValidScore(score) {
         return score !== null && score !== undefined && score >= 0 && score <= 16;
     }
 
+    // Formatta un punteggio per la visualizzazione
     static formatScore(score) {
         return DataValidator.isValidScore(score) ? score.toString() : 'N/A';
     }
 
+    // Determina la categoria di un punteggio (libero, parzialmente libero, non libero)
     static getScoreCategory(score) {
         if (!DataValidator.isValidScore(score)) return 'unknown';
         if (score >= 11) return 'free';
@@ -291,6 +337,7 @@ class DataValidator {
     }
 }
 
+// Inizializza il gestore dei dettagli del paese quando il DOM è completamente caricato
 document.addEventListener('DOMContentLoaded', () => {
     new CountryDetailManager();
 });
