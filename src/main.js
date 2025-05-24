@@ -72,11 +72,8 @@ class FreedomMapManager {
             
             // Configura i listener per gli eventi
             this.setupEventListeners();
-            // Nasconde l'indicatore di caricamento
-            this.hideLoading();
         } catch (error) {
-            console.error('Errore durante il caricamento della mappa:', error);
-            this.hideLoading();
+            console.error('Errore durante il caricamento della mappa:', error);x   
             this.showError();
         }
     }
