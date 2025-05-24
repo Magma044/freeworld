@@ -48,11 +48,6 @@ class CountryDetailManager {
 
     // Configura i listener per gli eventi
     setupEventListeners() {
-        // Listener per il pulsante "Indietro"
-        document.getElementById('backBtn').addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
-
         // Listener per il pulsante "Indietro" del browser
         window.addEventListener('popstate', () => {
             window.location.href = 'index.html';
