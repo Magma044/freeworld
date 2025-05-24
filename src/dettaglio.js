@@ -14,7 +14,6 @@ class CountryDetailManager {
     // Metodo di inizializzazione principale
     init() {
         this.extractUrlParameters();
-        this.setupEventListeners();
         this.loadCountryData();
         this.updatePageElements();
         this.loadGoogleCharts();
@@ -44,14 +43,6 @@ class CountryDetailManager {
     // Reindirizza l'utente alla pagina principale
     redirectToHome() {
         window.location.href = 'index.html';
-    }
-
-    // Configura i listener per gli eventi
-    setupEventListeners() {
-        // Listener per il pulsante "Indietro" del browser
-        window.addEventListener('popstate', () => {
-            window.location.href = 'index.html';
-        });
     }
 
     // Carica i dati del paese dall'array globale datiNazioni
