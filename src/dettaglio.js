@@ -25,19 +25,6 @@ class CountryDetailManager {
         this.countryName = this.urlParams.get('country_name');
         this.countryIndex = parseInt(this.urlParams.get('country_index'));
         this.countryNameEnglish = this.urlParams.get('country_name_inglese');
-
-        // Se i parametri non sono validi, reindirizza alla home
-        if (!this.isValidParameters()) {
-            this.redirectToHome();
-        }
-    }
-
-    // Verifica che tutti i parametri necessari siano presenti e validi
-    isValidParameters() {
-        return this.countryCode && 
-               this.countryName && 
-               !isNaN(this.countryIndex) && 
-               this.countryNameEnglish;
     }
 
     // Reindirizza l'utente alla pagina principale
@@ -61,7 +48,6 @@ class CountryDetailManager {
         // Se i dati non sono trovati, mostra un errore
         if (!this.countryData) {
             console.error('Dati del paese non trovati:', this.countryNameEnglish);
-            this.showDataError();
         }
     }
 
@@ -272,54 +258,7 @@ class CountryDetailManager {
             this.chart.draw(data, options);
         } catch (error) {
             console.error('Errore durante il caricamento della mappa del paese:', error);
-            this.showMapError();
         }
-    }
-
-    // Mostra un messaggio di errore quando la mappa non può essere caricata
-    showMapError() {
-        const mapDiv = document.getElementById('regions_div');
-        mapDiv.innerHTML = `
-            <div class="alert alert-warning text-center" role="alert">
-                <i class="bi bi-geo-alt fs-2"></i>
-                <h5 class="mt-2">Mappa non disponibile</h5>
-                <p class="mb-0">La visualizzazione geografica per questo paese non è al momento disponibile.</p>
-            </div>
-        `;
-    }
-
-    // Mostra un messaggio di errore quando i dati del paese non sono disponibili
-    showDataError() {
-        const container = document.querySelector('.container');
-        const errorAlert = `
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="bi bi-exclamation-triangle"></i>
-                <strong>Errore!</strong> I dati per questo paese non sono disponibili.
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        `;
-        container.insertAdjacentHTML('afterbegin', errorAlert);
-    }
-}
-
-// Classe per la validazione dei dati
-class DataValidator {
-    // Verifica se un punteggio è valido (tra 0 e 16)
-    static isValidScore(score) {
-        return score !== null && score !== undefined && score >= 0 && score <= 16;
-    }
-
-    // Formatta un punteggio per la visualizzazione
-    static formatScore(score) {
-        return DataValidator.isValidScore(score) ? score.toString() : 'N/A';
-    }
-
-    // Determina la categoria di un punteggio (libero, parzialmente libero, non libero)
-    static getScoreCategory(score) {
-        if (!DataValidator.isValidScore(score)) return 'unknown';
-        if (score >= 11) return 'free';
-        if (score >= 6.4) return 'partially-free';
-        return 'not-free';
     }
 }
 

@@ -73,8 +73,7 @@ class FreedomMapManager {
             // Configura i listener per gli eventi
             this.setupEventListeners();
         } catch (error) {
-            console.error('Errore durante il caricamento della mappa:', error);x   
-            this.showError();
+            console.error('Errore durante il caricamento della mappa:', error);   
         }
     }
 
@@ -99,34 +98,9 @@ class FreedomMapManager {
         // Estrae il nome del paese e l'indice dai dati selezionati
         const countryName = this.data.getValue(selection[0].row, 0);
         const countryIndex = this.data.getValue(selection[0].row, 1);
-        
-        // Verifica che i dati del paese siano validi
-        if (!this.isValidCountryData(countryName, countryIndex)) {
-            this.showCountryError(countryName);
-            return;
-        }
 
         // Naviga alla pagina di dettaglio del paese
         this.navigateToCountryPage(countryName, countryIndex);
-    }
-
-    // Verifica se i dati del paese sono validi e completi
-    isValidCountryData(countryName, countryIndex) {
-        return countryName && 
-               countryIndex !== null && 
-               countryIndex !== undefined &&
-               codice && codice[countryName] &&
-               nome && nome[countryName];
-    }
-
-    // Mostra un messaggio di errore per paesi con dati incompleti
-    showCountryError(countryName) {
-        const toast = this.createToast(
-            'Dati non disponibili', 
-            `I dati per ${countryName} non sono completamente disponibili.`,
-            'warning'
-        );
-        toast.show();
     }
 
     // Naviga alla pagina di dettaglio del paese selezionato
@@ -150,57 +124,6 @@ class FreedomMapManager {
             // Cambia il cursore per indicare che la mappa è cliccabile
             mapElement.style.cursor = 'pointer';
         }
-    }
-
-    // Mostra un messaggio di errore quando la mappa non può essere caricata
-    showError() {
-        const errorDiv = document.getElementById('regions_div');
-        errorDiv.innerHTML = `
-            <div class="alert alert-danger text-center" role="alert">
-                <i class="bi bi-exclamation-triangle fs-1"></i>
-                <h4 class="alert-heading">Errore di caricamento</h4>
-                <p>Non è stato possibile caricare la mappa. Controlla la connessione internet e riprova.</p>
-                <button class="btn btn-outline-danger" onclick="location.reload()">
-                    <i class="bi bi-arrow-clockwise"></i> Ricarica
-                </button>
-            </div>
-        `;
-    }
-
-    // Crea un toast notification per mostrare messaggi all'utente
-    createToast(title, message, type = 'info') {
-        const toastContainer = this.getOrCreateToastContainer();
-        const toastId = 'toast-' + Date.now();
-        
-        // HTML per il toast con Bootstrap
-        const toastHTML = `
-            <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        <strong>${title}</strong><br>${message}
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" 
-                            data-bs-dismiss="toast"></button>
-                </div>
-            </div>
-        `;
-        
-        // Aggiunge il toast al container e restituisce l'istanza Bootstrap
-        toastContainer.insertAdjacentHTML('beforeend', toastHTML);
-        return new bootstrap.Toast(document.getElementById(toastId));
-    }
-
-    // Ottiene o crea il container per i toast notifications
-    getOrCreateToastContainer() {
-        let container = document.getElementById('toast-container');
-        if (!container) {
-            // Crea il container se non esiste
-            container = document.createElement('div');
-            container.id = 'toast-container';
-            container.className = 'toast-container position-fixed bottom-0 end-0 p-3';
-            document.body.appendChild(container);
-        }
-        return container;
     }
 }
 
