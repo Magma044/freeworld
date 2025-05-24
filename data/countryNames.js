@@ -198,4 +198,3 @@ const nome = {
     "Zimbabwe": "Zimbabwe",
     "XK": "Kosovo"
 };
-

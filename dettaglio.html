@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head> <!-- Impostazioni base della pagina -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Icona dinamica della pagina (verrà impostata via JavaScript) -->
+    <link rel="icon" id="icona" href="">
+
+    <!-- Titolo dinamico della pagina -->
+    <title id="titolo">Dettagli Paese</title>
+
+    <!-- Framework e librerie esterne -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- Stili custom -->
+    <style>
+        /* Stile per l'intestazione con gradiente e ombre */
+        .country-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 0;
+        }
+
+        /* Contenitore bandiera con effetti visivi */
+        .flag-container {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Stile per il badge dello stato (libero/non libero) */
+        .status-badge {
+            font-size: 1.2rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Card per le metriche con effetto hover */
+        .metric-card {
+            border: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        /* Animazione al hover sulle card */
+        .metric-card:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Cerchio per visualizzazione punteggi */
+        .score-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            margin: 0 auto 1rem;
+        }
+
+        /* Contenitore mappa responsivo */
+        .map-container {
+            min-height: 400px;
+            border-radius: 10px;
+        }
+
+        /* Stile per il pulsante di ritorno alla mappa */
+        .back-btn {
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            z-index: 1000;
+            border-radius: 50px;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+
+<body> <!-- Barra di navigazione principale -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container"> <a class="navbar-brand" href="index.html"><i class="bi bi-globe-americas"></i> Freedom
+                Index</a>
+            <div class="navbar-nav ms-auto"> <a class="nav-link" href="index.html"><i class="bi bi-house"></i> Home</a>
+            </div>
+        </div>
+    </nav><!-- Pulsante per tornare alla vista mappa -->
+    <button class="btn btn-primary back-btn" id="backBtn">
+        <i class="bi bi-arrow-left"></i> Torna alla mappa
+    </button>
+
+    <!-- Sezione intestazione paese -->
+    <section class="country-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- Bandiera del paese -->
+                <div class="col-md-3 text-center">
+                    <div class="flag-container mb-3">
+                        <img id="bandiera" class="img-fluid" style="max-height: 120px;">
+                    </div>
+                </div>
+
+                <!-- Nome paese e status -->
+                <div class="col-md-6">
+                    <h1 id="nome" class="display-4 fw-bold mb-2">Nome Paese</h1>
+                    <div id="statusBadge" class="status-badge mb-3">STATUS</div>
+                </div>
+
+                <!-- Punteggio totale -->
+                <div class="col-md-3 text-center">
+                    <div class="text-white">
+                        <h3>Punteggio Totale</h3>
+                        <div class="display-3 fw-bold" id="totalScore">--</div>
+                        <small>/100</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contenuto principale -->
+    <div class="container my-5">
+        <div class="row">
+            <!-- Sezione mappa geografica -->
+            <div class="col-lg-8 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title"><i class="bi bi-geo-alt"></i> Localizzazione</h3>
+                        <div id="regions_div" class="map-container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistiche rapide -->
+            <div class="col-lg-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-speedometer2"></i> Punteggi Principali</h5>
+                        <div class="row text-center">
+                            <div class="col-6 mb-3">
+                                <div class="text-primary fw-bold fs-2" id="politicalRights">--</div>
+                                <small class="text-muted">Diritti Politici</small>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="text-success fw-bold fs-2" id="civilLiberties">--</div>
+                                <small class="text-muted">Libertà Civili</small>
+                            </div>
+                        </div>
+                        <!-- Barra progresso indicatore -->
+                        <div class="progress mb-2">
+                            <div class="progress-bar" id="totalProgressBar" style="width: 0%"></div>
+                        </div>
+                        <small class="text-muted">Indice di Libertà Complessivo</small>
+                    </div>
+                </div>
+
+                <!-- Legenda punteggi -->
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h6 class="card-title"><i class="bi bi-info-circle"></i> Come interpretare i dati</h6>
+                        <ul class="list-unstyled small">
+                            <li><i class="bi bi-check-circle text-success"></i> 70-100: Libero</li>
+                            <li><i class="bi bi-dash-circle text-warning"></i> 40-69: Parzialmente Libero</li>
+                            <li><i class="bi bi-x-circle text-danger"></i> 0-39: Non Libero</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sezione metriche dettagliate -->
+        <div class="row">
+            <div class="col-12 mb-4">
+                <h2><i class="bi bi-bar-chart"></i> Analisi Dettagliata</h2>
+                <p class="text-muted">Tutti i punteggi sono su una scala da 0 a 100, dove 100 rappresenta il massimo
+                    livello di libertà.</p>
+            </div>
+        </div>
+
+        <!-- Container per le metriche dinamiche -->
+        <div class="row" id="metricsContainer">
+            <!-- I contenuti verranno popolati dinamicamente via JavaScript -->
+        </div>
+    </div>
+
+    <!-- Script esterni -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Dati e configurazioni -->
+    <script src="data/countryCodes.js"></script>
+    <script src="data/countryData.js"></script>
+    <script src="data/countryNames.js"></script>
+
+    <!-- Logica principale della pagina -->
+    <script src="src/dettaglio.js"></script>
+</body>
+
+</html>
