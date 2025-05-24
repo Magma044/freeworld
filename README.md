@@ -18,19 +18,18 @@ Questo progetto consiste in una web app che visualizza una mappa interattiva del
 
 - Visualizzazione interattiva della mappa tramite Google Charts.
 - Cliccando su un paese, si accede a una pagina con informazioni dettagliate.
-- I dati vengono gestiti in formato JSON esportato da uno script Python (non incluso in questa versione).
 - Utilizzo di Bootstrap per il layout responsive.
 
 ## Tecnologie Utilizzate
 
 - **Frontend**: HTML5, CSS3, Bootstrap, JavaScript Vanilla
 - **Librerie esterne**: Google Charts
-- **Dataset**: Derivato da fonti internazionali tramite elaborazione in Python
+- **Dataset**: Scaricato dai dati aggiornati di FreedomHouse
 
 ## Come Usare il Progetto
 
 1. Clona o scarica il repository.
-2. Apri `index.html` in un browser moderno.
+2. Apri `index.html` in un browser.
 3. Clicca su un qualsiasi paese nella mappa per visualizzare i dettagli.
 
 ## Autore
